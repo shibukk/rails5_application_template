@@ -16,7 +16,6 @@ run "echo '#{ruby_version}' > ./.ruby-version"
 append_file 'Gemfile', <<-CODE
 gem "config"
 gem "jwt"
-gem "webpacker", "~> 3.0"
 
 gem "kaminari"
 
