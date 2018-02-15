@@ -129,6 +129,10 @@ get 'https://raw.githubusercontent.com/svenfuchs/rails-i18n/master/rails/locale/
 run 'rm -rf config/puma.rb'
 get 'https://raw.github.com/shibukk/rails5_application_template/master/config/puma.rb', 'config/puma.rb'
 
+# Replace database setting
+run 'rm -rf config/database.yml'
+get 'https://raw.github.com/shibukk/rails5_application_template/master/config/database.yml', 'config/database.yml'
+
 # Generating rake task of annotate
 run 'bundle exec rails g annotate:install'
 
@@ -173,16 +177,25 @@ insert_into_file 'spec/rails_helper.rb',%q{
 insert_into_file 'spec/rails_helper.rb', "\nrequire 'factory_girl_rails'", after: "require 'rspec/rails'"
 run 'rm -rf test'
 
-# Checker
+# Add checker files
 get 'https://raw.github.com/shibukk/rails5_application_template/master/root/.rubocop.yml', '.rubocop.yml'
 get 'https://raw.github.com/shibukk/rails5_application_template/master/root/.overcommit.yml', '.overcommit.yml'
+
+# Add docker files
+get 'https://raw.github.com/shibukk/rails5_application_template/master/bin/start_server', 'bin/start_server'
+get 'https://raw.github.com/shibukk/rails5_application_template/master/root/Procfile.dev', 'Procfile.dev'
+get 'https://raw.github.com/shibukk/rails5_application_template/master/root/docker-compose.yml', 'docker-compose.yml'
+get 'https://raw.github.com/shibukk/rails5_application_template/master/docker/.env.sample', 'docker/.env.sample'
+get 'https://raw.github.com/shibukk/rails5_application_template/master/docker/mysql/Dockerfile', 'docker/mysql/Dockerfile'
+get 'https://raw.github.com/shibukk/rails5_application_template/master/docker/web/Dockerfile', 'docker/web/Dockerfile'
+run 'chmod 0755 bin/start_server'
 
 # Update bundler-audit dics
 Bundler.with_clean_env do
   run 'bundle-audit update'
 end
 
-# wercker
+# Add setting of wercker
 if yes?('Do you use wercker? [yes or ELSE]')
   get 'https://raw.github.com/shibukk/rails5_application_template/master/root/wercker.yml', 'wercker.yml'
   gsub_file 'wercker.yml', /%RUBY_VERSION/, ruby_version
@@ -195,7 +208,7 @@ Bundler.with_clean_env do
   run 'bundle exec rubocop --auto-gen-config'
 end
 
-# overcommit
+# Generating overcommit
 Bundler.with_clean_env do
   run 'bundle exec overcommit --sign'
 end
