@@ -1,0 +1,49 @@
+box: ruby:%RUBY_VERSION
+
+services:
+  - id: mysql
+    env:
+        MYSQL_ROOT_PASSWORD: wercker
+        MYSQL_USER: root
+        MYSQL_PASSWORD: wercker
+        MYSQL_DATABASE: wercker
+        MYSQL_ADAPTER: mysql2
+        MYSQL_ENCODING: utf8mb4
+
+build:
+    steps:
+        - shibukk/rails-database-yml
+        - bundle-install
+        - script:
+            name: set nodejs emvironment
+            code: |
+                sudo apt-get update
+                sudo apt-get install -y locales mysql-client libmemcached-dev nodejs npm --no-install-recommends
+                sudo update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
+        - script:
+            name: set locale
+            code: |
+                sudo localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+                export LANG='en_US.utf8'
+        - script:
+            name: load database
+            code: |
+                RAILS_ENV=test bundle exec rails parallel:setup
+        - script:
+            name: rubocop
+            code: |
+                bundle exec rubocop -c ./.rubocop.yml
+        - script:
+            name: brakeman
+            code: bundle exec brakeman
+        - script:
+            name: audit
+            code: bundle exec bundle-audit
+        - script:
+            name: rspec
+            code: |
+                bundle exec rails "parallel:spec"
+    after-steps:
+        - wantedly/pretty-slack-notify:
+            webhook_url: $SLACK_URL
+            channel: ci

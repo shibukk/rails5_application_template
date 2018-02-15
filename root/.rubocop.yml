@@ -1,0 +1,11 @@
+# https://github.com/onk/onkcop
+inherit_gem:
+  onkcop: "config/rubocop.yml"
+
+Style/IndentationConsistency:
+  Enabled: true
+  EnforcedStyle: normal
+
+Metrics/ClassLength:
+  Exclude:
+    - app/api/**/*.rb
