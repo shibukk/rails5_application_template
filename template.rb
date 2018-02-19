@@ -52,7 +52,6 @@ group :test do
   gem "rspec-rails"
   gem "rspec-request_describer"
   gem "json_expressions"
-  gem "parallel_tests"
   gem "factory_girl_rails"
   gem "database_rewinder"
   gem "timecop"

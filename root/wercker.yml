@@ -27,12 +27,10 @@ build:
                 export LANG='en_US.utf8'
         - script:
             name: load database
-            code: |
-                RAILS_ENV=test bundle exec rails parallel:setup
+            code: RAILS_ENV=test bundle exec rails db:setup
         - script:
             name: rubocop
-            code: |
-                bundle exec rubocop -c ./.rubocop.yml
+            code: bundle exec rubocop -c ./.rubocop.yml
         - script:
             name: brakeman
             code: bundle exec brakeman
@@ -41,8 +39,7 @@ build:
             code: bundle exec bundle-audit
         - script:
             name: rspec
-            code: |
-                bundle exec rails "parallel:spec"
+            code: bundle exec rspec
     after-steps:
         - wantedly/pretty-slack-notify:
             webhook_url: $SLACK_URL
