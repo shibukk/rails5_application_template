@@ -60,6 +60,7 @@ CODE
 
 Bundler.with_clean_env do
   run 'bundle install --path vendor/bundle --jobs=4 --without production'
+  run 'bundle binstubs bundler --force'
 end
 
 # Initialize kaminari config
@@ -198,7 +199,7 @@ end
 if yes?('Do you use wercker? [yes or ELSE]')
   get 'https://raw.github.com/shibukk/rails5_application_template/master/root/wercker.yml', 'wercker.yml'
   gsub_file 'wercker.yml', /%RUBY_VERSION/, ruby_version
-  run "echo 'Please Set SLACK_URL to https://app.wercker.com'"
+  say "Please Set SLACK_URL to https://app.wercker.com"
 end
 
 # Rubocop Auto correct
