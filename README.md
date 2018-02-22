@@ -45,11 +45,11 @@ $ gem install rails -v 5.1.5
 Execute following commands:
 
 ```
-# If you want to use PostgreSQL, please execute following command;
-$ rails new _your_app_name_ --database=postgresql --force --skip-bundle --skip-turbolinks --skip-test --skip-action-cable --webpack=vue -m https://raw.github.com/shibukk/rails5_application_template/master/template.rb
-
-# If you want to use MySQL, please execute following command;
+# If you want to use MySQL and Vue.js, please execute following command;
 $ rails new _your_app_name_ --database=mysql --force --skip-bundle --skip-turbolinks --skip-test --skip-action-cable --webpack=vue -m https://raw.github.com/shibukk/rails5_application_template/master/template.rb
+
+# If you want to use MySQL and React, please execute following command;
+$ rails new _your_app_name_ --database=mysql --force --skip-bundle --skip-turbolinks --skip-test --skip-action-cable --webpack=react -m https://raw.github.com/shibukk/rails5_application_template/master/template.rb
 
 # Copy settings file for docker
 $ cp ./docker/.env.sample ./docker/.env
