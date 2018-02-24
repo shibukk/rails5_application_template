@@ -19,41 +19,41 @@ gem "jwt"
 
 gem "kaminari"
 
+gem "api-pagination" # for grape and kaminari
 gem "grape"
 gem "grape-entity"
 gem "grape-swagger"
-gem "grape-swagger-rails"
 gem "grape-swagger-entity"
-gem "api-pagination" # for grape and kaminari
+gem "grape-swagger-rails"
 
 group :development do
-  gem "bullet"
-  gem "brakeman", require: false
-  gem "overcommit", require: false
-  gem "bundler-audit", require: false
-  gem "onkcop", require: false
   gem "annotate"
   gem "better_errors"
   gem "binding_of_caller"
-  gem "rails_best_practices", require: false
-  gem "rack-mini-profiler", require: false
-  gem "pry-rails"
-  gem "pry-byebug"
-  gem "hirb"
-  gem "hirb-unicode"
-  gem "awesome_print"
-  gem "pry-stack_explorer"
-  gem "ruby-debug-ide"
+  gem "brakeman", require: false
+  gem "bullet"
+  gem "bundler-audit", require: false
   gem "debase"
   gem "foreman"
+  gem "hirb"
+  gem "onkcop", require: false
+  gem "overcommit", require: false
+  gem "pry-byebug"
+  gem "pry-rails"
+  gem "pry-stack_explorer"
+  gem "rack-mini-profiler", require: false
+  gem "rails_best_practices", require: false
+  gem "rubocop", ">= 0.49.0", require: false
+  gem "ruby-debug-ide"
 end
 
 group :test do
+  gem "database_rewinder"
+  gem "factory_bot_rails"
+  gem "json_expressions"
+  gem "rails-controller-testing"
   gem "rspec-rails"
   gem "rspec-request_describer"
-  gem "json_expressions"
-  gem "factory_girl_rails"
-  gem "database_rewinder"
   gem "timecop"
 end
 CODE
