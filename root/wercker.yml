@@ -1,46 +1,42 @@
 box: ruby:%RUBY_VERSION
 
 services:
-  - id: mysql
+  - id: mysql:5.7
     env:
-        MYSQL_ROOT_PASSWORD: wercker
-        MYSQL_USER: root
-        MYSQL_PASSWORD: wercker
-        MYSQL_DATABASE: wercker
-        MYSQL_ADAPTER: mysql2
-        MYSQL_ENCODING: utf8mb4
+        MYSQL_ROOT_PASSWORD: root_password
+        MYSQL_USER: test_user
+        MYSQL_PASSWORD: test_password
+        MYSQL_DATABASE: test_database
 
 build:
     steps:
-        - shibukk/rails-database-yml
-        - bundle-install
+        - install-packages:
+            packages: nodejs
         - script:
-            name: set nodejs emvironment
+            name: locale
             code: |
-                sudo apt-get update
-                sudo apt-get install -y locales mysql-client libmemcached-dev nodejs npm --no-install-recommends
-                sudo update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
-        - script:
-            name: set locale
-            code: |
+                sudo apt-get update && apt-get install -y locales
                 sudo localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
                 export LANG='en_US.utf8'
-        - script:
-            name: load database
-            code: RAILS_ENV=test bundle exec rails db:setup
+        - rails-database-yml
+        - bundle-install:
+            jobs: 16
         - script:
             name: rubocop
-            code: bundle exec rubocop -c ./.rubocop.yml
+            code: XDG_CACHE_HOME=$WERCKER_CACHE_DIR/rubocop_cache bundle exec rubocop --display-cop-names --cache true -c ./.rubocop.yml
+        - script:
+            name: rails_best_practices
+            code: bundle exec rails_best_practices .
         - script:
             name: brakeman
             code: bundle exec brakeman
         - script:
             name: audit
-            code: bundle exec bundle-audit
+            code: bundle exec bundle-audit check --update
         - script:
             name: rspec
-            code: bundle exec rspec
+            code: RAILS_ENV=test bin/bundle exec rails db:reset spec
     after-steps:
-        - wantedly/pretty-slack-notify:
-            webhook_url: $SLACK_URL
-            channel: ci
+        - pasonatquila/pretty-slack-notify:
+            webhook_url: $SLACK_WEBHOOK_URL
+            channel: $SLACK_CHANNEL
