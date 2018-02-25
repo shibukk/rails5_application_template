@@ -24,7 +24,6 @@ RUN apt-get update \
 ENV LANG en_US.utf8
 
 COPY Gemfile* /app/
-RUN bundle install --jobs=4 --path=/bundle
 COPY Procfile.dev /app/
 
 ENTRYPOINT ["./bin/start_server"]

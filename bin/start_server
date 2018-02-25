@@ -1,5 +1,8 @@
 #!/bin/bash -e
 
+# Install gems
+bundle install --jobs=4 --path=/bundle
+
 # Wait for MySQL staring
 until mysqladmin ping -h${MYSQL_HOSTNAME} -u${MYSQL_ROOT_USER} -p${MYSQL_ROOT_PASSWORD} --silent; do
   sleep 1
