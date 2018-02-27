@@ -21,6 +21,7 @@ services:
     env_file: ./docker/.env
     ports:
       - "127.0.0.1:3001:3001"
+      - "127.0.0.1:3035:3035"
     links:
       - db
 
