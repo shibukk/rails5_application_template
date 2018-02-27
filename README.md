@@ -58,6 +58,12 @@ $ cp ./docker/.env.sample ./docker/.env
 $ rm -rf vendor/bundle
 $ rm -rf node_modules
 
+# Please edit `config/webpacker.yml` file below, for socket of webpacker
+#
+#  dev_server:
+#    https: false
+#    host: 0.0.0.0
+
 # Start up your application
 $ docker-compose up
 ```
