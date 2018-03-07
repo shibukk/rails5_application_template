@@ -1,6 +1,14 @@
 version: '3'
 
 services:
+  proxy:
+    build:
+      context: .
+      dockerfile: ./docker/proxy/Dockerfile
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    ports:
+      - "80:80"
   db:
     build:
       context: .
@@ -9,7 +17,7 @@ services:
       - binlog:/var/lib/mysql
     env_file: ./docker/.env
     ports:
-      - "127.0.0.1:13306:3306"
+      - "13306:3306"
   web:
     build:
       context: .
@@ -19,9 +27,13 @@ services:
       - bundle:/bundle
       - .:/app
     env_file: ./docker/.env
+    environment:
+      - VIRTUAL_HOST=lvh.me,*.lvh.me
+      - VIRTUAL_PORT=3001
+      - NETWORK_ACCESS=internal
     ports:
-      - "127.0.0.1:3001:3001"
-      - "127.0.0.1:3035:3035"
+      - "3001:3001"
+      - "3035:3035"
     links:
       - db
 

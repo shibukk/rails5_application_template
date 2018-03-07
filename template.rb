@@ -188,6 +188,7 @@ get 'https://raw.github.com/shibukk/rails5_application_template/master/root/dock
 get 'https://raw.github.com/shibukk/rails5_application_template/master/docker/.env.sample', 'docker/.env.sample'
 get 'https://raw.github.com/shibukk/rails5_application_template/master/docker/mysql/Dockerfile', 'docker/mysql/Dockerfile'
 get 'https://raw.github.com/shibukk/rails5_application_template/master/docker/web/Dockerfile', 'docker/web/Dockerfile'
+get 'https://raw.github.com/shibukk/rails5_application_template/master/docker/proxy/Dockerfile', 'docker/proxy/Dockerfile'
 run 'chmod 0755 bin/start_server'
 
 # Update bundler-audit dics
