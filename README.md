@@ -23,6 +23,9 @@ $ brew install automake
 # Install yarn for webpacker
 $ brew install yarn
 
+# Install yarn for mysql, if you need
+$ brew install mysql
+
 # Update ruby-build
 $ brew upgrade ruby-build
 
