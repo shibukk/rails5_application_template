@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Install gems
-bundle install --jobs=4 --path=/bundle
+bundle install --jobs=4
 
 # Wait for MySQL staring
 until mysqladmin ping -h${MYSQL_HOSTNAME} -u${MYSQL_ROOT_USER} -p${MYSQL_ROOT_PASSWORD} --silent; do
@@ -12,7 +12,7 @@ done
 if [ -e /app/tmp/pids/*.pid ]; then rm /app/tmp/pids/*.pid; fi
 
 # Setup database
-bundle exec rails db:migrate 2>/dev/null || bundle exec rails db:setup
+rails db:migrate 2>/dev/null || rails db:setup
 
 # Execute the given or default command
 exec "$@"
