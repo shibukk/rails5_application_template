@@ -41,6 +41,7 @@ $ rbenv install 2.5.0
 ```
 # Set to use rails latest version(e.g. 5.1.5)
 $ gem install rails -v 5.1.5
+$ gem install mysql2
 ```
 
 ## Execution command
