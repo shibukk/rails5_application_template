@@ -176,6 +176,8 @@ get 'https://raw.github.com/shibukk/rails_application_template/master/docker/web
 get 'https://raw.github.com/shibukk/rails_application_template/master/docker/proxy/Dockerfile', 'docker/proxy/Dockerfile'
 run 'chmod 0755 bin/start_server'
 
+gsub_file 'docker/web/Dockerfile', /%RUBY_VERSION/, ruby_version
+
 # Update bundler-audit dics
 Bundler.with_clean_env do
   run 'bundle-audit update'
