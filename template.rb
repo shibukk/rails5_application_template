@@ -19,13 +19,6 @@ gem "jwt"
 
 gem "kaminari"
 
-gem "api-pagination" # for grape and kaminari
-gem "grape"
-gem "grape-entity"
-gem "grape-swagger"
-gem "grape-swagger-entity"
-gem "grape-swagger-rails"
-
 group :development do
   gem "annotate"
   gem "better_errors"
@@ -36,21 +29,18 @@ group :development do
   gem "debase"
   gem "foreman"
   gem "hirb"
-  gem "onkcop", require: false
-  gem "overcommit", require: false
-  gem "pry-byebug"
-  gem "pry-rails"
-  gem "pry-stack_explorer"
   gem "rack-mini-profiler", require: false
   gem "rails_best_practices", require: false
-  gem "rubocop", ">= 0.49.0", require: false
+  gem "rubocop", require: false
+  gem "rubocop-rspec", require: false
+  gem "rubocop-performance", require: false
   gem "ruby-debug-ide"
 end
 
 group :test do
   gem "database_rewinder"
   gem "factory_bot_rails"
-  gem "json_expressions"
+  gem "ffaker"
   gem "rails-controller-testing"
   gem "rspec-rails"
   gem "rspec-request_describer"
@@ -71,10 +61,6 @@ end
 # Set config/application.rb
 application do
   %q{
-
-    # Set grape api
-    config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
-    config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
 
     # Set timezone
     config.time_zone = 'Tokyo'
@@ -127,11 +113,11 @@ get 'https://raw.githubusercontent.com/svenfuchs/rails-i18n/master/rails/locale/
 
 # Replace puma(App Server)
 run 'rm -rf config/puma.rb'
-get 'https://raw.github.com/shibukk/rails5_application_template/master/config/puma.rb', 'config/puma.rb'
+get 'https://raw.github.com/shibukk/rails_application_template/master/config/puma.rb', 'config/puma.rb'
 
 # Replace database setting
 run 'rm -rf config/database.yml'
-get 'https://raw.github.com/shibukk/rails5_application_template/master/config/database.yml', 'config/database.yml'
+get 'https://raw.github.com/shibukk/rails_application_template/master/config/database.yml', 'config/database.yml'
 
 # Generating rake task of annotate
 run 'bundle exec rails g annotate:install'
@@ -155,10 +141,10 @@ insert_into_file 'spec/rails_helper.rb',%q{
   end
 
   config.before :all do
-    FactoryGirl.reload
-    FactoryGirl.factories.clear
-    FactoryGirl.sequences.clear
-    FactoryGirl.find_definitions
+    FactoryBot.reload
+    FactoryBot.factories.clear
+    FactoryBot.sequences.clear
+    FactoryBot.find_definitions
   end
 
   config.include FactoryGirl::Syntax::Methods
@@ -174,21 +160,20 @@ insert_into_file 'spec/rails_helper.rb',%q{
   end
 }, after: 'RSpec.configure do |config|'
 
-insert_into_file 'spec/rails_helper.rb', "\nrequire 'factory_girl_rails'", after: "require 'rspec/rails'"
+insert_into_file 'spec/rails_helper.rb', "\nrequire 'factory_bot_rails'", after: "require 'rspec/rails'"
 run 'rm -rf test'
 
 # Add checker files
-get 'https://raw.github.com/shibukk/rails5_application_template/master/root/.rubocop.yml', '.rubocop.yml'
-get 'https://raw.github.com/shibukk/rails5_application_template/master/root/.overcommit.yml', '.overcommit.yml'
+get 'https://raw.github.com/shibukk/rails_application_template/master/root/.rubocop.yml', '.rubocop.yml'
 
 # Add docker files
-get 'https://raw.github.com/shibukk/rails5_application_template/master/bin/start_server', 'bin/start_server'
-get 'https://raw.github.com/shibukk/rails5_application_template/master/root/Procfile.dev', 'Procfile.dev'
-get 'https://raw.github.com/shibukk/rails5_application_template/master/root/docker-compose.yml', 'docker-compose.yml'
-get 'https://raw.github.com/shibukk/rails5_application_template/master/docker/.env.sample', 'docker/.env.sample'
-get 'https://raw.github.com/shibukk/rails5_application_template/master/docker/mysql/Dockerfile', 'docker/mysql/Dockerfile'
-get 'https://raw.github.com/shibukk/rails5_application_template/master/docker/web/Dockerfile', 'docker/web/Dockerfile'
-get 'https://raw.github.com/shibukk/rails5_application_template/master/docker/proxy/Dockerfile', 'docker/proxy/Dockerfile'
+get 'https://raw.github.com/shibukk/rails_application_template/master/bin/start_server', 'bin/start_server'
+get 'https://raw.github.com/shibukk/rails_application_template/master/root/Procfile.dev', 'Procfile.dev'
+get 'https://raw.github.com/shibukk/rails_application_template/master/root/docker-compose.yml', 'docker-compose.yml'
+get 'https://raw.github.com/shibukk/rails_application_template/master/docker/.env.sample', 'docker/.env.sample'
+get 'https://raw.github.com/shibukk/rails_application_template/master/docker/mysql/Dockerfile', 'docker/mysql/Dockerfile'
+get 'https://raw.github.com/shibukk/rails_application_template/master/docker/web/Dockerfile', 'docker/web/Dockerfile'
+get 'https://raw.github.com/shibukk/rails_application_template/master/docker/proxy/Dockerfile', 'docker/proxy/Dockerfile'
 run 'chmod 0755 bin/start_server'
 
 # Update bundler-audit dics
@@ -198,7 +183,7 @@ end
 
 # Add setting of wercker
 if yes?('Do you use wercker? [yes or ELSE]')
-  get 'https://raw.github.com/shibukk/rails5_application_template/master/root/wercker.yml', 'wercker.yml'
+  get 'https://raw.github.com/shibukk/rails_application_template/master/root/wercker.yml', 'wercker.yml'
   gsub_file 'wercker.yml', /%RUBY_VERSION/, ruby_version
   say "Please Set SLACK_URL to https://app.wercker.com"
 end
@@ -207,9 +192,4 @@ end
 Bundler.with_clean_env do
   run 'bundle exec rubocop --auto-correct'
   run 'bundle exec rubocop --auto-gen-config'
-end
-
-# Generating overcommit
-Bundler.with_clean_env do
-  run 'bundle exec overcommit --sign'
 end
