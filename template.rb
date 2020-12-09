@@ -48,13 +48,13 @@ group :test do
 end
 CODE
 
-Bundler.with_clean_env do
+Bundler.with_unbundled_env do
   run 'bundle install --path vendor/bundle --jobs=4 --without production'
   run 'bundle binstubs bundler --force'
 end
 
 # Initialize kaminari config
-Bundler.with_clean_env do
+Bundler.with_unbundled_env do
   run 'bundle exec rails g kaminari:config'
 end
 
@@ -123,7 +123,7 @@ get 'https://raw.github.com/shibukk/rails_application_template/master/config/dat
 run 'bundle exec rails g annotate:install'
 
 # Initialize rspec config
-Bundler.with_clean_env do
+Bundler.with_unbundled_env do
   run 'bundle exec rails g rspec:install'
 end
 
@@ -179,7 +179,7 @@ run 'chmod 0755 bin/start_server'
 gsub_file 'docker/web/Dockerfile', /%RUBY_VERSION/, ruby_version
 
 # Update bundler-audit dics
-Bundler.with_clean_env do
+Bundler.with_unbundled_env do
   run 'bundle-audit update'
 end
 
@@ -191,7 +191,7 @@ if yes?('Do you use wercker? [yes or ELSE]')
 end
 
 # Rubocop Auto correct
-Bundler.with_clean_env do
+Bundler.with_unbundled_env do
   run 'bundle exec rubocop --auto-correct'
   run 'bundle exec rubocop --auto-gen-config'
 end
