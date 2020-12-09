@@ -1,6 +1,6 @@
-# Application Template for Rails5
+# Application Template for Rails
 
-Rails5 Application Template. - [Rails Application Templates — Ruby on Rails Guides](http://guides.rubyonrails.org/rails_application_templates.html)
+Rails Application Template. - [Rails Application Templates — Ruby on Rails Guides](http://guides.rubyonrails.org/rails_application_templates.html)
 
 It's enhanced version of [morizyun/rails5_application_template](https://github.com/morizyun/rails5_application_template).
 
@@ -32,15 +32,15 @@ $ brew upgrade ruby-build
 # Show some ruby versions which rbenv can install
 $ rbenv install --list
 
-# Install latest Ruby(e.g. 2.5.0)
-$ rbenv install 2.5.0
+# Install latest Ruby(e.g. 2.7.2)
+$ rbenv install 2.7.2
 ```
 
 ### Install latest Rails gem
 
 ```
-# Set to use rails latest version(e.g. 5.1.5)
-$ gem install rails -v 5.1.5
+# Set to use rails latest version(e.g. 6.0.3.4)
+$ gem install rails -v 6.0.3.4
 ```
 
 ## Execution command
