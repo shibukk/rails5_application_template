@@ -1,7 +1,7 @@
 require 'bundler'
 
 # Modify .gitignore with gibo
-run 'gibo OSX Ruby Rails JetBrains SASS SublimeText > .gitignore' rescue nil
+run 'gibo dump macOS Ruby Rails JetBrains SASS SublimeText >> .gitignore' rescue nil
 gsub_file '.gitignore', /^config\/initializers\/secret_token\.rb$/, ''
 gsub_file '.gitignore', /^config\/secrets\.yml$/, ''
 
